@@ -10,6 +10,8 @@ Every feature can be turned off individually.
 
 While scoped in, scroll the mouse wheel to switch between zoom levels. Default and alternate snipers can have different zooms:
 
+![Variable scope zoom](https://raw.githubusercontent.com/GoktugOcalan95/RailgunnerTweaks/master/docs/images/VariableZoom.gif)
+
 | Scope | Level 1 | Level 2 | Level 3 | Vanilla (at 60 FOV) |
 |---|---|---|---|---|
 | Default Sniper | 2x | 4x | 8x | about 3.6x |
@@ -25,8 +27,17 @@ While scoped in, scroll the mouse wheel to switch between zoom levels. Default a
 
 ### Cleaner HUD
 
-- Hide the decorative yellow frame, status text and rotating icon around Railgunner's crosshair, including the variant that appears when your primary is replaced. The center brackets stay.
-- Hide the pink frame and zoom text inside the default secondary's scope. The center dot, reticle and weak point markers stay.
+- Hide the decorative yellow frame when unscoped.
+
+| Vanilla | With RailgunnerTweaks |
+|---|---|
+| ![Yellow frame, vanilla](https://raw.githubusercontent.com/GoktugOcalan95/RailgunnerTweaks/master/docs/images/YellowFrameBefore.png) | ![Yellow frame, hidden](https://raw.githubusercontent.com/GoktugOcalan95/RailgunnerTweaks/master/docs/images/YellowFrameAfter.png) |
+
+- Hide the pink frame when scoped-in with default sniper.
+
+| Vanilla | With RailgunnerTweaks |
+|---|---|
+| ![Pink frame, vanilla](https://raw.githubusercontent.com/GoktugOcalan95/RailgunnerTweaks/master/docs/images/PinkFrameBefore.png) | ![Pink frame, hidden](https://raw.githubusercontent.com/GoktugOcalan95/RailgunnerTweaks/master/docs/images/PinkFrameAfter.png) |
 
 ## Configuration
 
@@ -38,17 +49,17 @@ Settings are available in the in-game mod options menu when [Risk Of Options](ht
 |---|---|---|
 | HideCrosshairFlavor | On | Hides the yellow frame, text and icon around the crosshair. |
 | HideDefaultScopeFrame | On | Hides the pink frame and zoom text in the default secondary's scope. |
-| EnableVariableZoom | On | Mouse-wheel zoom levels while scoped. |
-| InvertScroll | Off | When on, scrolling down zooms in. |
+| EnableVariableZoom | On | Enables variable zoom with the mouse wheel. |
+| InvertScroll | Off | When on, scrolling up zooms out instead of zooming in. |
 | ZoomTransitionTime | 0.1 | Seconds a zoom change takes. 0 is instant. |
 | ZeroMonitorMatch | On | 0% monitor match scaling for scoped sensitivity. |
-| ScopedSensitivityPercent | 100 | Extra scoped sensitivity multiplier. 100 means no change. |
+| ScopedSensitivityPercent | 100 | Extra scoped sensitivity multiplier. 100 means unchanged. |
 
 **Zoom - Default** and **Zoom - Alternate**
 
-Each level has an on/off toggle and a zoom amount from 1x to 10x. Levels are always sorted by zoom amount, so scrolling up zooms in regardless of the order they're entered in, and duplicate values count as one level. A scope starts on its middle level, or the higher one when only two are enabled.
+Each level has an on/off toggle and a zoom amount from 1x to 10x. So you can use 1 to 3 zoom levels.
 
-Most settings apply immediately. HUD settings take effect the next time the crosshair is redrawn, such as after scoping in and out.
+Settings can be changed on the fly. HUD settings should apply the next time you scope in.
 
 ## Compatibility
 

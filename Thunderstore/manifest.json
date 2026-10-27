@@ -1,7 +1,7 @@
 {
     "name": "RailgunnerTweaks",
     "version_number": "1.0.0",
-    "website_url": "",
+    "website_url": "https://github.com/GoktugOcalan95/RailgunnerTweaks",
     "description": "Quality-of-life tweaks for Railgunner: variable scope zoom, focal length scaling sensitivity, and hide pointless HUD elements. Client-side, and every feature can be toggled.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.2122",
