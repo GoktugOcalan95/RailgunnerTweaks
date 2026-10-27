@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AssemblyName>RailgunnerTweaks</AssemblyName>
+		<RootNamespace>RailgunnerTweaks</RootNamespace>
+
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
+
+		<!-- Where the built mod gets copied after each build.
+		     This is r2modman's default data folder; change it if your profile lives elsewhere
+		     (r2modman: Settings > Browse profile folder, then go into BepInEx\plugins). -->
+		<ProfilePluginsDir>$(APPDATA)\r2modmanPlus-local\RiskOfRain2\profiles\Railgunner Dev\BepInEx\plugins</ProfilePluginsDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Analyzers" Version="1.0.*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference Include="BepInEx.Core" Version="5.4.21" />
+
+		<PackageReference Include="UnityEngine.Modules" Version="2021.3.45" IncludeAssets="compile" />
+		<PackageReference Include="RiskOfRain2.GameLibs" Version="*-*" />
+		<PackageReference Include="MMHOOK.RoR2" Version="*" NoWarn="NU1701" />
+		<PackageReference Include="RoR2BepInExPack" Version="*" />
+
+		<!-- Optional dependency: only used when Risk of Options is installed. -->
+		<PackageReference Include="Rune580.Mods.RiskOfRain2.RiskOfOptions" Version="2.8.5" />
+	</ItemGroup>
+
+	<!-- Copies the .dll and .pdb into the dev profile after every successful build.
+	     If the folder doesn't exist, it skips the copy and shows a warning instead of failing. -->
+	<Target Name="CopyToProfile" AfterTargets="Build">
+		<Warning Condition="!Exists('$(ProfilePluginsDir)')" Text="Profile plugins folder not found, mod was not copied: $(ProfilePluginsDir)" />
+		<MakeDir Condition="Exists('$(ProfilePluginsDir)')" Directories="$(ProfilePluginsDir)\RailgunnerTweaks" />
+		<Copy Condition="Exists('$(ProfilePluginsDir)')"
+		      SourceFiles="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb"
+		      DestinationFolder="$(ProfilePluginsDir)\RailgunnerTweaks" />
+		<Message Condition="Exists('$(ProfilePluginsDir)')" Importance="high" Text="Copied RailgunnerTweaks to $(ProfilePluginsDir)\RailgunnerTweaks" />
+	</Target>
+
+	<!-- Release builds also create the Thunderstore package in the Thunderstore folder. -->
+	<Target Name="PackageThunderstore" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<PropertyGroup>
+			<PackageSourceDir>$(MSBuildProjectDirectory)\..\Thunderstore\</PackageSourceDir>
+			<PackageStagingDir>$(BaseIntermediateOutputPath)thunderstore\</PackageStagingDir>
+		</PropertyGroup>
+		<RemoveDir Directories="$(PackageStagingDir)" />
+		<Copy SourceFiles="$(PackageSourceDir)manifest.json;$(PackageSourceDir)icon.png;$(MSBuildProjectDirectory)\..\README.md;$(TargetDir)$(TargetName).dll"
+		      DestinationFolder="$(PackageStagingDir)" />
+		<ZipDirectory SourceDirectory="$(PackageStagingDir)" DestinationFile="$(PackageSourceDir)RailgunnerTweaks.zip" Overwrite="true" />
+		<Message Importance="high" Text="Thunderstore package: $(PackageSourceDir)RailgunnerTweaks.zip" />
+	</Target>
+
+</Project>
