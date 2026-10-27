@@ -33,6 +33,9 @@
 
 		<!-- Optional dependency: only used when Risk of Options is installed. -->
 		<PackageReference Include="Rune580.Mods.RiskOfRain2.RiskOfOptions" Version="2.8.5" />
+
+		<!-- The Thunderstore icon, embedded for the Risk of Options menu. -->
+		<EmbeddedResource Include="..\Thunderstore\icon.png" LogicalName="RailgunnerTweaks.icon.png" />
 	</ItemGroup>
 
 	<!-- Copies the .dll and .pdb into the dev profile after every successful build.

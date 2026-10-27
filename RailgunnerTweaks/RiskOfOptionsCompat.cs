@@ -3,6 +3,8 @@ using RiskOfOptions;
 using RiskOfOptions.OptionConfigs;
 using RiskOfOptions.Options;
 using System.Runtime.CompilerServices;
+using System.IO;
+using UnityEngine;
 
 namespace RailgunnerTweaks
 {
@@ -21,6 +23,12 @@ namespace RailgunnerTweaks
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Register()
         {
+            var icon = LoadIcon();
+            if (icon)
+            {
+                ModSettingsManager.SetModIcon(icon);
+            }
+                
             ModSettingsManager.SetModDescription(
                 "Quality-of-life tweaks for Railgunner: variable scope zoom, scoped sensitivity options, and optional removal of decorative HUD elements. " +
                 "Every feature can be turned off, in which case the game behaves as vanilla.");
@@ -50,6 +58,21 @@ namespace RailgunnerTweaks
                 ModSettingsManager.AddOption(new StepSliderOption(values[i],
                     new StepSliderConfig { min = PluginConfig.MinZoom, max = PluginConfig.MaxZoom, increment = PluginConfig.ZoomStep }));
             }
+        }
+
+        /// <summary>Loads the icon embedded in the mod's assembly as a sprite, or null if it is missing.</summary>
+        private static Sprite LoadIcon()
+        {
+            using var stream = typeof(RiskOfOptionsCompat).Assembly.GetManifestResourceStream("RailgunnerTweaks.icon.png");
+            if (stream == null) return null;
+
+            using var memory = new MemoryStream();
+            stream.CopyTo(memory);
+
+            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            if (!texture.LoadImage(memory.ToArray())) return null;
+
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
     }
 }
